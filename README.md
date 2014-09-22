@@ -1,3 +1,3 @@
 # Worst Weather
 
-<www.accuweather.com/en/weather-news>
+<http://www.accuweather.com/en/weather-news>
