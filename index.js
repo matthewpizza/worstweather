@@ -12,8 +12,8 @@ var http = require('http'),
  */
 var options = {
 	url:    'http://sirocco.accuweather.com/adc_images2/english/feature/400x300/worstwx.jpg',
-	log:    'last-modified.txt',
-	images: 'images'
+	log:    __dirname + '/last-modified.txt',
+	images: __dirname + '/images'
 };
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
