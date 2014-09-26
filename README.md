@@ -36,6 +36,6 @@ Add the cronjob:
 
 ## Notifications
 
-When the new Worst Weather image is posted, [node-notifier](https://github.com/mikaelbr/node-notifier/) will send desktop notification:
+When the new Worst Weather image is posted, [node-notifier](https://github.com/mikaelbr/node-notifier/) will send a desktop notification:
 
 ![OS X Notification](https://github.com/matthewspencer/worstweather/raw/master/notification.png)
