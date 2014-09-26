@@ -2,7 +2,11 @@
   "name": "worstwx",
   "version": "1.0.0",
   "description": "",
+  "repository": "https://github.com/matthewspencer/worstweather",
   "main": "index.js",
   "author": "Matthew Spencer",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "node-notifier": "^3.4.1"
+  }
 }

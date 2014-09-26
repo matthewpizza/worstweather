@@ -2,7 +2,8 @@
  * Load Modules
  */
 var http = require('http'),
-	fs =   require('fs')
+	fs = require('fs'),
+	Notification = require('node-notifier')
 ;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -97,7 +98,26 @@ function write_image( response ) {
 	response.on('end', function() {
 		fs.writeFile(options.images + '/' + filename, imagedata, 'binary', function(error){
 			if (error) return console.log(error);
+
+			send_notification( options.images + '/' + filename );
 		});
+	});
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/**
+ * Send Notification
+ */
+function send_notification( image ) {
+	var notifier = new Notification();
+
+	notifier.notify({
+		title:       'AccuWeather',
+		message:     'Today’s Worst Weather',
+		contentImage: image,
+		appIcon:      __dirname + '/accuweather.png',
+		open:         'file://' + image
 	});
 }
 
@@ -106,4 +126,4 @@ function write_image( response ) {
 /**
  * Init
  */
- local_modified( remote_modified );
+local_modified( remote_modified );
