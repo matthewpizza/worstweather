@@ -54,4 +54,4 @@ Send notifications to [Slack](https://slack.com) when the new Worst Weather imag
 }
 ```
 
-![Slack message](https://cloud.githubusercontent.com/assets/97460/4531024/56ac74ec-4d86-11e4-90f1-dbba55bad9c7.png)
+![Slack message](https://github.com/matthewspencer/worstweather/raw/master/slack.png)
