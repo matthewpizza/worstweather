@@ -6,7 +6,7 @@ var http = require('http'),
 ;
 
 http.get(url, function(response) {
-	if (response.statusCode == '200') return;
+	if (response.statusCode == '200') process.exit(0);
 	throw new Error(response.statusCode);
 }).on('error', function(error) {
 	throw error;
