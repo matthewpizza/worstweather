@@ -3,6 +3,8 @@
  */
 var http = require('http'),
 	fs = require('fs'),
+	events = require('events'),
+	emitter = new events.EventEmitter(),
 	Notification = require('node-notifier')
 ;
 
@@ -21,13 +23,11 @@ var options = {
 
 /**
  * Local Last Modified Time
- *
- * @param function callback
  */
-function local_modified( callback ) {
+function getLocalModified() {
 	fs.exists(options.log, function(exists) {
 		if ( ! exists ) {
-			callback( exists );
+			emitter.emit('localModified', exists);
 			return;
 		}
 
@@ -36,7 +36,7 @@ function local_modified( callback ) {
 				return console.log(error);
 			}
 
-			callback( data );
+			emitter.emit('localModified', data);
 		});
 	});
 }
@@ -48,7 +48,7 @@ function local_modified( callback ) {
  *
  * @param string|bool modified
  */
-function remote_modified( modified ) {
+emitter.on('localModified', function(modified) {
 	http.get(options.url, function(response) {
 		if ( modified === response.headers['last-modified'] ) return;
 
@@ -57,7 +57,7 @@ function remote_modified( modified ) {
 	}).on('error', function(error) {
 		console.log(error);
 	});
-}
+});
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -99,7 +99,7 @@ function write_image( response ) {
 		fs.writeFile(options.images + '/' + filename, imagedata, 'binary', function(error){
 			if (error) return console.log(error);
 
-			send_notification( options.images + '/' + filename );
+			emitter.emit('newImage', options.images + '/' + filename);
 		});
 	});
 }
@@ -109,7 +109,7 @@ function write_image( response ) {
 /**
  * Send Notification
  */
-function send_notification( image ) {
+emitter.on('newImage', function(image) {
 	var notifier = new Notification();
 
 	notifier.notify({
@@ -119,11 +119,11 @@ function send_notification( image ) {
 		appIcon:      __dirname + '/accuweather.png',
 		open:         'file://' + image
 	});
-}
+});
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /**
  * Init
  */
-local_modified( remote_modified );
+getLocalModified();
