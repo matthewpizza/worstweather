@@ -1,5 +1,7 @@
 # Today’s Worst Weather
 
+[![Build Status](https://travis-ci.org/matthewspencer/worstweather.svg?branch=travis-ci)](https://travis-ci.org/matthewspencer/worstweather)
+
 <http://www.accuweather.com/en/weather-news>
 
 This project is not affiliated with AccuWeather.
