@@ -44,7 +44,7 @@ function getLocalModified() {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /**
- * Remove Last Modified Time
+ * Remote Last Modified Time
  *
  * @param string|bool modified
  */
@@ -52,8 +52,8 @@ emitter.on('localModified', function(modified) {
 	http.get(options.url, function(response) {
 		if ( modified === response.headers['last-modified'] ) return;
 
-		write_image(response);
-		update_local(response.headers['last-modified']);
+		writeImage(response);
+		updateLocal(response.headers['last-modified']);
 	}).on('error', function(error) {
 		console.log(error);
 	});
@@ -66,7 +66,7 @@ emitter.on('localModified', function(modified) {
  *
  * @param string modified
  */
-function update_local( modified ) {
+function updateLocal(modified) {
 	fs.writeFile(options.log, modified, function(error) {
 		if (error) return console.log(error);
 	});
@@ -79,7 +79,7 @@ function update_local( modified ) {
  *
  * @param object response
  */
-function write_image( response ) {
+function writeImage(response) {
 	var imagedata = '',
 		now = new Date(),
 		filename = now.getFullYear() + '_' + (now.getMonth() + 1) + '_' + now.getDate() + '.jpg'
