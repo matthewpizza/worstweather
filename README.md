@@ -1,4 +1,6 @@
-# Today’s Worst Weather [![Build Status][travis-image]][travis-url]
+# Today’s Worst Weather
+
+[![Build Status](https://travis-ci.org/matthewspencer/worstweather.svg?branch=travis-ci)](https://travis-ci.org/matthewspencer/worstweather)
 
 <http://www.accuweather.com/en/weather-news>
 
