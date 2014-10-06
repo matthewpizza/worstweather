@@ -1,8 +1,11 @@
 {
-  "name": "worstwx",
+  "name": "worstweather",
   "version": "1.0.0",
-  "description": "",
+  "description": "Today’s Worst Weather",
   "repository": "https://github.com/matthewspencer/worstweather",
+  "scripts": {
+    "test": "node tests/index.js"
+  },
   "main": "index.js",
   "author": "Matthew Spencer",
   "license": "MIT",
