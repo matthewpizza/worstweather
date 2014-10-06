@@ -1,4 +1,4 @@
-# Today’s Worst Weather
+# Today’s Worst Weather [![Build Status][travis-image]][travis-url]
 
 <http://www.accuweather.com/en/weather-news>
 
