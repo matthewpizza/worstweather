@@ -5,7 +5,9 @@ var http = require('http'),
 	fs = require('fs'),
 	events = require('events'),
 	emitter = new events.EventEmitter(),
-	Notification = require('node-notifier')
+	Notification = require('node-notifier'),
+	Slack = require('node-slack'),
+	slack = false
 ;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -14,10 +16,25 @@ var http = require('http'),
  * Local Variables
  */
 var options = {
-	url:    'http://sirocco.accuweather.com/adc_images2/english/feature/400x300/worstwx.jpg',
-	log:    __dirname + '/last-modified.txt',
-	images: __dirname + '/images'
-};
+		url:    'http://sirocco.accuweather.com/adc_images2/english/feature/400x300/worstwx.jpg',
+		log:    __dirname + '/last-modified.txt',
+		images: __dirname + '/images',
+		slack:  __dirname + '/slack.json'
+	},
+	config = {}
+;
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/**
+ * Enable Slack
+ */
+fs.exists(options.slack, function(exists) {
+	if ( ! exists ) return;
+
+	config = require(options.slack);
+	slack = new Slack(config.domain, config.token);
+});
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -107,9 +124,11 @@ function writeImage(response) {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /**
- * Send Notification
+ * Send Desktop Notification
+ *
+ * @param string image
  */
-emitter.on('newImage', function(image) {
+function sendNotification(image) {
 	var notifier = new Notification();
 
 	notifier.notify({
@@ -119,6 +138,35 @@ emitter.on('newImage', function(image) {
 		appIcon:      __dirname + '/accuweather.png',
 		open:         'file://' + image
 	});
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/**
+ * Send Slack Message
+ *
+ * @param string image
+ */
+function sendSlack(image) {
+	if ( ! slack ) return;
+
+	slack.send({
+		text:         'Today’s Worst Weather ' + options.url,
+		channel:      config.channel,
+		username:     'AccuWeather',
+		icon_emoji:   ':sunny:',
+		unfurl_links: true
+	});
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/**
+ * New Image Listeners
+ */
+emitter.on('newImage', function(image) {
+	sendNotification(image);
+	sendSlack(image);
 });
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
