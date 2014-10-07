@@ -156,6 +156,8 @@ function sendSlack(image) {
 		username:     'AccuWeather',
 		icon_emoji:   ':sunny:',
 		unfurl_links: true
+	}, function(error, response) {
+		if (error) console.log(error);
 	});
 }
 
