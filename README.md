@@ -48,8 +48,10 @@ Send notifications to [Slack](https://slack.com) when the new Worst Weather imag
 
 ```json
 {
-	"domain":  "",
-	"token":   "",
+	"domain": "",
+	"token": {
+		"webhook": ""
+	},
 	"channel": ""
 }
 ```

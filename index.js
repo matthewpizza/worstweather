@@ -33,7 +33,7 @@ fs.exists(options.slack, function(exists) {
 	if ( ! exists ) return;
 
 	config = require(options.slack);
-	slack = new Slack(config.domain, config.token);
+	slack = new Slack(config.domain, config.token.webhook);
 });
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
