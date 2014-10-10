@@ -2,6 +2,7 @@
  * Load Modules
  */
 var http = require('http'),
+	request = require('request'),
 	fs = require('fs'),
 	events = require('events'),
 	emitter = new events.EventEmitter(),
@@ -150,16 +151,38 @@ function sendNotification(image) {
 function sendSlack(image) {
 	if ( ! slack ) return;
 
+	if ( ! config.token.api ) {
+		emitter.emit('slackMessage', options.url);
+		return;
+	}
+
+	var	data = {
+		'channels': '#accuweather',
+		'token': config.token.api,
+		'file': fs.createReadStream(image)
+	};
+
+	request.post({url: 'https://slack.com/api/files.upload', formData: data}, function(err, res, body) {
+		if (err) return console.log(err);
+
+		var data = JSON.parse(body);
+		emitter.emit('slackMessage', data.file.url);
+	});
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+emitter.on('slackMessage', function(url) {
 	slack.send({
-		text:         'Today’s Worst Weather ' + options.url,
-		channel:      config.channel,
-		username:     'AccuWeather',
-		icon_emoji:   ':sunny:',
+		text: 'Today’s Worst Weather ' + url,
+		channel: config.channel,
+		username: 'AccuWeather',
+		icon_emoji: ':sunny:',
 		unfurl_links: true
 	}, function(error, response) {
 		if (error) console.log(error);
 	});
-}
+});
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
