@@ -50,10 +50,13 @@ Send notifications to [Slack](https://slack.com) when the new Worst Weather imag
 {
 	"domain": "",
 	"token": {
-		"webhook": ""
+		"webhook": "",
+		"api": ""
 	},
 	"channel": ""
 }
 ```
+
+To upload the image to Slack, [create an API application](https://api.slack.com/), and set the optional `api` value.
 
 ![Slack message](https://github.com/matthewspencer/worstweather/raw/master/slack.png)
