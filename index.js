@@ -157,15 +157,16 @@ function sendSlack(image) {
 	}
 
 	var	data = {
-		'channels': '#accuweather',
-		'token': config.token.api,
-		'file': fs.createReadStream(image)
+		channels: config.channel,
+		token   : config.token.api,
+		file    : fs.createReadStream(image)
 	};
 
 	request.post({url: 'https://slack.com/api/files.upload', formData: data}, function(err, res, body) {
 		if (err) return console.log(err);
 
 		var data = JSON.parse(body);
+
 		emitter.emit('slackMessage', data.file.url);
 	});
 }
