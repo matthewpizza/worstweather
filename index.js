@@ -30,7 +30,7 @@ fs.exists(options.slack, function(exists) {
   if ( ! exists ) return;
 
   config = require(options.slack);
-  slack = new Slack(config.token.webhook);
+  slack = new Slack(config.webhook);
 });
 
 /**
@@ -133,16 +133,16 @@ function sendNotification(image) {
  * @param string image
  */
 function sendSlack(image) {
-  if ( ! slack ) return;
+  if (!slack) return;
 
-  if ( ! config.token.api ) {
+  if (!config.token) {
     emitter.emit('slackMessage', options.url);
     return;
   }
 
   var data = {
     channels: config.channel,
-    token   : config.token.api,
+    token   : config.token,
     file    : fs.createReadStream(image)
   };
 
@@ -157,10 +157,10 @@ function sendSlack(image) {
 
 emitter.on('slackMessage', function(url) {
   slack.send({
-    text: 'Today’s Worst Weather ' + url,
-    channel: config.channel,
-    username: 'AccuWeather',
-    icon_emoji: ':sunny:',
+    text        : 'Today’s Worst Weather ' + url,
+    channel     : config.channel,
+    username    : 'AccuWeather',
+    icon_emoji  : ':sunny:',
     unfurl_links: true
   }, function(error, response) {
     if (error) console.log(error);
