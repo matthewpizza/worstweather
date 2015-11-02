@@ -1,5 +1,7 @@
 # Today’s Worst Weather
 
+**Worst Weather is no longer being updated on accuweather.com.** :disappointed_relieved:
+
 [![Build Status](https://travis-ci.org/matthewspencer/worstweather.svg?branch=travis-ci)](https://travis-ci.org/matthewspencer/worstweather)
 
 <http://www.accuweather.com/en/weather-news>
